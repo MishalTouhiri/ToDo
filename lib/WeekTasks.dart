@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-s
+
 class WeekTasksView extends StatefulWidget {
   final List<String> tasks;
   final Function(String) onDelete;
