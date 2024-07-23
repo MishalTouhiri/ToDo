@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 
+
 class WeekTasksView extends StatefulWidget {
   final List<String> tasks;
-  final Function(String) onDelete;
-  final Function(String) onComplete;
-  final Function(String, String) onEdit;
 
   WeekTasksView({
-    required this.onDelete,
-    required this.onComplete,
-    required this.onEdit,
     required this.tasks,
   });
 
@@ -32,7 +27,7 @@ class _WeekTasksViewState extends State<WeekTasksView> {
       itemCount: widget.tasks.length,
       itemBuilder: (context, index) {
         return ListTile(
-          tileColor: Colors.blue,
+          tileColor: Colors.lightBlue,
           iconColor: Colors.white,
           textColor: Colors.white,
           title: Text(widget.tasks[index]),
@@ -42,13 +37,15 @@ class _WeekTasksViewState extends State<WeekTasksView> {
               IconButton(
                 icon: Icon(Icons.edit),
                 onPressed: () {
-                  _showEditDialog(context, widget.tasks[index]);
+                  _showEditDialog(context, widget.tasks[index], index);
                 },
               ),
               IconButton(
                 icon: Icon(Icons.delete),
                 onPressed: () {
-                  widget.onDelete(widget.tasks[index]);
+                  setState(() {
+                    widget.tasks.removeAt(index);
+                  });
                 },
               ),
               Checkbox(
@@ -71,7 +68,7 @@ class _WeekTasksViewState extends State<WeekTasksView> {
     );
   }
 
-  void _showEditDialog(BuildContext context, String currentTask) {
+  void _showEditDialog(BuildContext context, String currentTask, int index) {
     TextEditingController _editController =
         TextEditingController(text: currentTask);
 
@@ -118,7 +115,9 @@ class _WeekTasksViewState extends State<WeekTasksView> {
             onPressed: () {
               String editedTask = _editController.text.trim();
               if (editedTask.isNotEmpty) {
-                widget.onEdit(currentTask, editedTask);
+                setState(() {
+                  widget.tasks[index] = editedTask;
+                });
                 Navigator.of(context).pop();
               }
             },

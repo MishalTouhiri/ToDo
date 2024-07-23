@@ -91,27 +91,15 @@ class _TasksPageState extends State<TasksPage>
               children: [
                 WeekTasksView(
                   tasks: _tasks[0],
-                  onDelete: (String) {},
-                  onComplete: (String) {},
-                  onEdit: (String, l) {},
                 ),
                 WeekTasksView(
                   tasks: _tasks[1],
-                  onDelete: (String) {},
-                  onComplete: (String) {},
-                  onEdit: (String, l) {},
                 ),
                 WeekTasksView(
                   tasks: _tasks[2],
-                  onDelete: (String) {},
-                  onComplete: (String) {},
-                  onEdit: (String, l) {},
                 ),
                 WeekTasksView(
                   tasks: _tasks[3],
-                  onDelete: (String) {},
-                  onComplete: (String) {},
-                  onEdit: (String, l) {},
                 ),
               ],
             ),
