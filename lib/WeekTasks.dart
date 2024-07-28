@@ -118,7 +118,7 @@ class _WeekTasksViewState extends State<WeekTasksView> {
                 setState(() {
                   widget.tasks[index] = editedTask;
                 });
-                Navigator.of(context).pop();
+               
               }
             },
             child: Text(
