@@ -4,27 +4,9 @@ import 'package:todomonth/views/add_task_dialog.dart';
 import '../controllers/tasks_controller.dart';
 import 'week_tasks_view.dart';
 
-class TasksPage extends StatefulWidget {
-  @override
-  _TasksPageState createState() => _TasksPageState();
-}
+class TasksPage extends StatelessWidget {
+  TaskController taskController = Get.put(TaskController());
 
-class _TasksPageState extends State<TasksPage> with SingleTickerProviderStateMixin {
-  final TaskController taskController = Get.put(TaskController());
-
-  @override
-  void initState() {
-    super.initState();
-    taskController.tabController = TabController(length: 4, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    taskController.tabController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -75,25 +57,29 @@ class _TasksPageState extends State<TasksPage> with SingleTickerProviderStateMix
                       tasks: controller.tasks[0],
                       onDelete: (task) => controller.deleteTask(0, task),
                       onComplete: (task) => controller.completeTask(0, task),
-                      onEdit: (oldTask, newTask) => controller.editTask(0, oldTask, newTask),
+                      onEdit: (oldTask, newTask) =>
+                          controller.editTask(0, oldTask, newTask),
                     ),
                     WeekTasksView(
                       tasks: controller.tasks[1],
                       onDelete: (task) => controller.deleteTask(1, task),
                       onComplete: (task) => controller.completeTask(1, task),
-                      onEdit: (oldTask, newTask) => controller.editTask(1, oldTask, newTask),
+                      onEdit: (oldTask, newTask) =>
+                          controller.editTask(1, oldTask, newTask),
                     ),
                     WeekTasksView(
                       tasks: controller.tasks[2],
                       onDelete: (task) => controller.deleteTask(2, task),
                       onComplete: (task) => controller.completeTask(2, task),
-                      onEdit: (oldTask, newTask) => controller.editTask(2, oldTask, newTask),
+                      onEdit: (oldTask, newTask) =>
+                          controller.editTask(2, oldTask, newTask),
                     ),
                     WeekTasksView(
                       tasks: controller.tasks[3],
                       onDelete: (task) => controller.deleteTask(3, task),
                       onComplete: (task) => controller.completeTask(3, task),
-                      onEdit: (oldTask, newTask) => controller.editTask(3, oldTask, newTask),
+                      onEdit: (oldTask, newTask) =>
+                          controller.editTask(3, oldTask, newTask),
                     ),
                   ],
                 );

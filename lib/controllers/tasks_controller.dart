@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class TaskController extends GetxController with SingleGetTickerProviderMixin {
+class TaskController extends GetxController with GetSingleTickerProviderStateMixin {
   late TabController tabController;
   int currentWeek = 0;
   

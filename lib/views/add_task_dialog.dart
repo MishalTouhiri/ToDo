@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AddTaskDialog extends StatefulWidget {
   final int currentWeek;
@@ -42,7 +43,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
           padding: EdgeInsets.all(5),
           color: Colors.lightBlue,
           onPressed: () {
-            Navigator.of(context).pop();
+            Get.back();
           },
           child: Text(
             'Cancel',
@@ -58,7 +59,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
             final task = _taskController.text.trim();
             if (task.isNotEmpty) {
               widget.onTaskAdded(task);
-              Navigator.of(context).pop();
+              Get.back();
             }
           },
           child: Text(
