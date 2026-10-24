@@ -1,16 +1,19 @@
-# todomonth
+# TodoMonth
 
-A new Flutter project.
+A Flutter app for planning a month one week at a time.
 
-## Getting Started
+- Four week tabs per month, each showing its dates and how many tasks are done
+- Monthly progress ring across all weeks
+- Add and rename tasks from a bottom sheet; tick to complete
+- Delete from the task menu or by swiping, with Undo
+- Move between months; every month keeps its own plan
+- Tasks are saved on the device (`shared_preferences`)
+- Material 3 with light and dark themes
 
-This project is a starting point for a Flutter application.
+## Run
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+flutter pub get
+flutter run          # or: flutter run -d chrome
+flutter test
+```
