@@ -9,6 +9,7 @@ A Flutter app for planning a month one week at a time.
 - Move between months; every month keeps its own plan
 - Tasks are saved on the device (`shared_preferences`)
 - Material 3 with light and dark themes
+- English and Arabic (right to left), following the device language
 
 ## Run
 

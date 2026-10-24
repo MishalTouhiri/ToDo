@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'strings.dart';
 import 'task_sheet.dart';
 import 'task_store.dart';
 import 'week_tasks.dart';
-
-const _months = [
-  'January', 'February', 'March', 'April', 'May', 'June', 'July', //
-  'August', 'September', 'October', 'November', 'December',
-];
 
 class TasksPage extends StatefulWidget {
   const TasksPage({super.key, required this.store});
@@ -33,8 +29,9 @@ class _TasksPageState extends State<TasksPage>
 
   Future<void> _addTask() async {
     final week = _tabs.index;
-    final title =
-        await showTaskSheet(context, heading: 'New task · Week ${week + 1}');
+    final title = await showTaskSheet(context,
+        heading: S.of(context).newTaskHeading(week + 1),
+        action: S.of(context).add);
     if (title != null) store.add(week, title);
   }
 
@@ -53,20 +50,24 @@ class _TasksPageState extends State<TasksPage>
               TabBar(
                 controller: _tabs,
                 dividerColor: colors.outlineVariant,
+                labelPadding: const EdgeInsets.symmetric(horizontal: 4),
                 tabs: [
                   for (var i = 0; i < TaskStore.weekCount; i++)
                     Tab(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text('Week ${i + 1}'),
-                          if (store.week(i).isNotEmpty) ...[
-                            const SizedBox(width: 6),
-                            _CountBadge(
-                              '${store.doneIn(i)}/${store.week(i).length}',
-                            ),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(S.of(context).week(i + 1)),
+                            if (store.week(i).isNotEmpty) ...[
+                              const SizedBox(width: 6),
+                              _CountBadge(
+                                '${store.doneIn(i)}/${store.week(i).length}',
+                              ),
+                            ],
                           ],
-                        ],
+                        ),
                       ),
                     ),
                 ],
@@ -86,7 +87,7 @@ class _TasksPageState extends State<TasksPage>
         floatingActionButton: FloatingActionButton.extended(
           onPressed: _addTask,
           icon: const Icon(Icons.add),
-          label: const Text('Add task'),
+          label: Text(S.of(context).addTask),
         ),
       ),
     );
@@ -114,22 +115,22 @@ class _Header extends StatelessWidget {
               Icon(Icons.edit_calendar_rounded, color: colors.primary),
               const SizedBox(width: 8),
               Text(
-                'TodoMonth',
+                S.of(context).appTitle,
                 style: theme.textTheme.titleLarge
                     ?.copyWith(fontWeight: FontWeight.w700),
               ),
               const Spacer(),
               IconButton(
-                tooltip: 'Previous month',
+                tooltip: S.of(context).previousMonth,
                 onPressed: () => store.changeMonth(-1),
                 icon: const Icon(Icons.chevron_left),
               ),
               Text(
-                '${_months[store.month.month - 1]} ${store.month.year}',
+                '${S.of(context).month(store.month.month)} ${store.month.year}',
                 style: theme.textTheme.titleSmall,
               ),
               IconButton(
-                tooltip: 'Next month',
+                tooltip: S.of(context).nextMonth,
                 onPressed: () => store.changeMonth(1),
                 icon: const Icon(Icons.chevron_right),
               ),
@@ -178,7 +179,7 @@ class _Header extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Monthly progress',
+                        S.of(context).monthlyProgress,
                         style: theme.textTheme.titleMedium?.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
@@ -187,8 +188,10 @@ class _Header extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         store.total == 0
-                            ? 'Plan your month one week at a time'
-                            : '${store.completed} of ${store.total} tasks done',
+                            ? S.of(context).emptyMonth
+                            : S
+                                .of(context)
+                                .doneOfTotal(store.completed, store.total),
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: Colors.white.withValues(alpha: 0.85),
                         ),

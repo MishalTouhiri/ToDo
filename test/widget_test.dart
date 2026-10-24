@@ -69,6 +69,19 @@ void main() {
     expect(store.week(0), isEmpty);
   });
 
+  testWidgets('shows Arabic text right to left on an Arabic device',
+      (tester) async {
+    tester.platformDispatcher.localesTestValue = const [Locale('ar')];
+    addTearDown(tester.platformDispatcher.clearLocalesTestValue);
+    final store = await _store();
+    await tester.pumpWidget(TodoMonthApp(store: store));
+
+    expect(find.text('إضافة مهمة'), findsOneWidget);
+    expect(find.text('أكتوبر 2026'), findsOneWidget);
+    expect(Directionality.of(tester.element(find.text('إضافة مهمة'))),
+        TextDirection.rtl);
+  });
+
   test('saves tasks per month', () async {
     final store = await _store();
     store.add(0, 'October task');

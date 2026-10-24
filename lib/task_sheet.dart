@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'strings.dart';
+
 /// Bottom sheet for writing a new task or renaming one. Returns the
 /// trimmed text, or null when dismissed.
 Future<String?> showTaskSheet(
@@ -66,10 +68,10 @@ class _TaskSheetState extends State<_TaskSheet> {
             autofocus: true,
             textInputAction: TextInputAction.done,
             onSubmitted: (_) => _submit(),
-            decoration: const InputDecoration(
-              hintText: 'What do you need to do?',
-              border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.task_alt),
+            decoration: InputDecoration(
+              hintText: S.of(context).taskHint,
+              border: const OutlineInputBorder(),
+              prefixIcon: const Icon(Icons.task_alt),
             ),
           ),
           const SizedBox(height: 16),
@@ -78,7 +80,7 @@ class _TaskSheetState extends State<_TaskSheet> {
             children: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Cancel'),
+                child: Text(S.of(context).cancel),
               ),
               const SizedBox(width: 8),
               ListenableBuilder(

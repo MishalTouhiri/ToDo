@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'strings.dart';
 import 'task_store.dart';
 import 'tasks_page.dart';
 
@@ -33,6 +35,8 @@ class TodoMonthApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: theme(Brightness.light),
       darkTheme: theme(Brightness.dark),
+      supportedLocales: S.supportedLocales,
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
       home: TasksPage(store: store),
     );
   }

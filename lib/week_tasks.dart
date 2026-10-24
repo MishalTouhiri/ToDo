@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'strings.dart';
 import 'task.dart';
 import 'task_sheet.dart';
 import 'task_store.dart';
-
-const _shortMonths = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', //
-  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-];
 
 class WeekTasksView extends StatelessWidget {
   const WeekTasksView({super.key, required this.store, required this.week});
@@ -20,7 +16,7 @@ class WeekTasksView extends StatelessWidget {
     final theme = Theme.of(context);
     final tasks = store.week(week);
     final (start, end) = store.weekRange(week);
-    final range = '${_shortMonths[start.month - 1]} ${start.day} – ${end.day}';
+    final range = S.of(context).dayRange(start, end);
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
@@ -30,7 +26,7 @@ class WeekTasksView extends StatelessWidget {
           child: Text(
             tasks.isEmpty
                 ? range
-                : '$range · ${store.doneIn(week)} of ${tasks.length} done',
+                : '$range · ${S.of(context).weekDone(store.doneIn(week), tasks.length)}',
             style: theme.textTheme.labelLarge
                 ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),
@@ -61,9 +57,9 @@ class _TaskTile extends StatelessWidget {
   Future<void> _edit(BuildContext context) async {
     final title = await showTaskSheet(
       context,
-      heading: 'Edit task',
+      heading: S.of(context).editTask,
       initial: task.title,
-      action: 'Save',
+      action: S.of(context).save,
     );
     if (title != null) store.rename(week, task.id, title);
   }
@@ -75,10 +71,10 @@ class _TaskTile extends StatelessWidget {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(
-        content: Text('Deleted "${deleted.title}"'),
+        content: Text(S.of(context).deleted(deleted.title)),
         behavior: SnackBarBehavior.floating,
         action: SnackBarAction(
-          label: 'Undo',
+          label: S.of(context).undo,
           onPressed: () => store.insert(week, index, deleted),
         ),
       ));
@@ -128,22 +124,22 @@ class _TaskTile extends StatelessWidget {
             ),
             onTap: () => store.toggle(week, task.id),
             trailing: PopupMenuButton<String>(
-              tooltip: 'Task options',
+              tooltip: S.of(context).taskOptions,
               onSelected: (choice) =>
                   choice == 'edit' ? _edit(context) : _delete(context),
-              itemBuilder: (context) => const [
+              itemBuilder: (context) => [
                 PopupMenuItem(
                   value: 'edit',
                   child: ListTile(
                     leading: Icon(Icons.edit_outlined),
-                    title: Text('Edit'),
+                    title: Text(S.of(context).edit),
                   ),
                 ),
                 PopupMenuItem(
                   value: 'delete',
                   child: ListTile(
                     leading: Icon(Icons.delete_outline),
-                    title: Text('Delete'),
+                    title: Text(S.of(context).delete),
                   ),
                 ),
               ],
@@ -175,11 +171,11 @@ class _EmptyWeek extends StatelessWidget {
                 size: 40, color: colors.onPrimaryContainer),
           ),
           const SizedBox(height: 16),
-          Text('Nothing planned for week ${week + 1}',
+          Text(S.of(context).emptyWeek(week + 1),
               style: theme.textTheme.titleMedium),
           const SizedBox(height: 4),
           Text(
-            'Tap “Add task” to plan your week.',
+            S.of(context).emptyWeekHint,
             style: theme.textTheme.bodyMedium
                 ?.copyWith(color: colors.onSurfaceVariant),
           ),
